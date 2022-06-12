@@ -1,0 +1,46 @@
+package client;
+
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.util.Scanner;
+
+public class JavaClient {
+	public static void main(String[] args) {
+		
+	}
+}
+
+class MyClient{
+	InputStream is;
+	OutputStream os;
+	Socket socket;
+	ObjectInputStream ois;
+	ObjectOutputStream oos;
+	Scanner sc;
+	String rMsg;
+	
+	public void mystart() {
+		socket = new Socket("127.0.0.1", 5000);
+		
+	}
+	
+	public void sendMessage(Socket socket) {
+		os = socket.getOutputStream();
+		oos = new ObjectOutputStream(os);
+		sc = new Scanner(System.in);
+		System.out.print("보낼 메시지>>");
+		String sMsg = sc.nextLine();
+	}
+	
+	public void receiveMessage(Socket socket) {
+		
+	}
+}
+
+
+
+
+

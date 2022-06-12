@@ -1,0 +1,15 @@
+package client;
+
+public class JavaClient {
+	public static void main(String[] args) {
+		
+	}
+}
+
+class MyClient{
+	InputStream is;
+	OutputStream so;
+	public void mystart() {
+		
+	}
+}

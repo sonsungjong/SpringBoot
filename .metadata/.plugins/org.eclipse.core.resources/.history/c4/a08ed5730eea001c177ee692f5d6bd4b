@@ -1,0 +1,8 @@
+package server;
+
+public class JavaServer {
+
+}
+
+// 3대 통신
+// 1. TCP/IP
