@@ -24,6 +24,11 @@ public class MainController {
 		return "index";			// index.html 파일 실행
 	}
 	
+	@GetMapping("/board")				// localhost:8080/board
+	public String boardPage() {
+		return "board";			// board.html
+	}
+	
 	@GetMapping("/another")
 	public String anotherPage(Model model) {
 		WriteLog wl = new WriteLog();
@@ -40,6 +45,7 @@ public class MainController {
 		model.addAttribute("send1", name);
 		return "result";				// result.html 파일 실행
 	}
+	
 }
 
 class WriteLog{
