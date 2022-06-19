@@ -8,15 +8,30 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.example.myweb.model.User;
+import com.example.myweb.service.UserService;
 
 @Controller
 public class MainController {
 	
+	private UserService userService;
+	
+	public MainController(UserService userService) {
+		super();
+		this.userService = userService;
+	}
+
 	@GetMapping("/")			// 기본경로로 해당 메서드 실행
 	public String home() {
 		WriteLog wl = new WriteLog();
@@ -25,8 +40,48 @@ public class MainController {
 	}
 	
 	@GetMapping("/board")				// localhost:8080/board
-	public String boardPage() {
-		return "board";			// board.html
+	public String boardPage(Model model) {
+//		model.addAttribute("users", userService.getAllUser());			// 화면에 users 변수명으로 값을 전달
+//		return "board";			// board.html
+		return findPage(1, model);
+	}
+	
+	@GetMapping("/board/new")
+	public String signupPage(Model model) {
+		User user = new User();
+		model.addAttribute("user", user);			// model.addAttribute는 HTML로 값을 넘기는 애
+		return "signup";		// signup.html
+	}
+	
+	@PostMapping("/board")
+	public String saveUser(@ModelAttribute("user") User user)
+	{
+		userService.saveUser(user);
+		return "redirect:/board";			// board.html 로 돌아가라
+	}
+	
+	@GetMapping("/board/edit/{no}")
+	public String editPage(@PathVariable Long no, Model model) {
+		model.addAttribute("user", userService.getUserById(no));
+		return "edit_user";			// edit_user.html
+	}
+	
+	@PostMapping("/board/{no}")
+	public String editUser(@PathVariable Long no, @ModelAttribute("user") User user, Model model) {
+		// 번호(key)를 통해서 데이터베이스에서 정보 가져오기
+		User db_user = userService.getUserById(no);
+		db_user.setNo(no);
+		db_user.setId(user.getId());
+		db_user.setPw(user.getPw());
+		
+		userService.updateUser(db_user);
+		return "redirect:/board";				// board.html로 돌아가라
+	}
+	
+	@GetMapping("/board/{no}")
+	public String deleteUser(@PathVariable Long no) {
+		userService.deleteUser(no);
+		return "redirect:/board";
 	}
 	
 	@GetMapping("/another")
@@ -46,6 +101,18 @@ public class MainController {
 		return "result";				// result.html 파일 실행
 	}
 	
+	@GetMapping("/page/{pageNo}")
+	public String findPage(@PathVariable (value="pageNo") int pageNo, Model model) {
+		int pageSize = 2;			// 한 페이지에 보여줄 갯수 5개
+		Page<User> page = userService.findPaginated(pageNo, pageSize);
+		List<User> listUsers = page.getContent();
+		
+		model.addAttribute("currentPage", pageNo);
+		model.addAttribute("totalPages", page.getTotalPages());
+		model.addAttribute("totalItems", page.getTotalElements());
+		model.addAttribute("users", listUsers);
+		return "board";
+	}
 }
 
 class WriteLog{

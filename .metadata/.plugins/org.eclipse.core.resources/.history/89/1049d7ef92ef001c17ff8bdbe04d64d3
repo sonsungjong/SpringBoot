@@ -1,0 +1,12 @@
+package com.example.myweb.model;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="user")
+public class User {
+	private int id;
+	
+	private String id;
+}

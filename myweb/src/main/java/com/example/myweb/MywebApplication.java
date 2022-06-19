@@ -5,8 +5,8 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
+//@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})		// 데이터베이스 무시
 @SpringBootApplication
-@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})		// 데이터베이스 무시
 public class MywebApplication {
 
 	public static void main(String[] args) {
@@ -22,3 +22,5 @@ public class MywebApplication {
 // cmd -> netstat -ano -> TCP 0.0.0.0:8080의 PID를 찾는다 -> taskkill /f /pid 번호
 
 // localhost:8080
+
+// https://github.com/sonsungjong/SpringBoot.git

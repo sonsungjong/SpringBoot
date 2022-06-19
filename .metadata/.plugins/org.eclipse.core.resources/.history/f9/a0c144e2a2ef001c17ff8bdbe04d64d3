@@ -1,0 +1,18 @@
+package com.example.myweb.service;
+
+import java.util.List;
+
+import com.example.myweb.model.User;
+
+public interface UserService {
+	// 전체 가져오기
+	List<User> getAllUser();
+	
+	User saveUser(User user);
+	
+	User updateUser(User user);
+	
+	void deleteUser(Long no);
+	
+	User getUserById()
+}
